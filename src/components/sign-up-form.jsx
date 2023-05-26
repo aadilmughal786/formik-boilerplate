@@ -4,39 +4,46 @@ import Loader from "./loader";
 
 const SignUpForm = () => {
   const [isloading, setIsLoading] = useState(false);
+
+  const initialValues = {
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    terms: false,
+  };
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.fname) {
+      errors.fname = "Required";
+    }
+    if (!values.lname) {
+      errors.lname = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+
+    return errors;
+  };
+
+  const onSubmit = (values) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      console.log(values);
+    }, 2000);
+  };
+
   const formik = useFormik({
-    initialValues: {
-      fname: "",
-      lname: "",
-      email: "",
-      password: "",
-      terms: false,
-    },
-    onSubmit: () => {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    },
-
-    validate: (values) => {
-      const errors = {};
-
-      if (!values.fname) {
-        errors.fname = "Required";
-      }
-      if (!values.lname) {
-        errors.lname = "Required";
-      }
-      if (!values.email) {
-        errors.email = "Required";
-      }
-      if (!values.password) {
-        errors.password = "Required";
-      }
-
-      return errors;
-    },
+    initialValues,
+    onSubmit,
+    validate,
   });
 
   return (
