@@ -12,6 +12,10 @@ const SignUpForm = () => {
     email: "",
     password: "",
     terms: false,
+    social: {
+      codepan: "",
+      github: "",
+    },
   };
 
   const onSubmit = (values) => {
@@ -27,11 +31,16 @@ const SignUpForm = () => {
     lname: Yup.string().required(),
     email: Yup.string().email().required(),
     password: Yup.string().min(8).required(),
-    terms: Yup.boolean(true).required().oneOf([true]),
+    terms: Yup.boolean().required().oneOf([true]),
+    social: Yup.object().shape({
+      codepan: Yup.string().required(),
+      github: Yup.string().required(),
+    }),
   });
 
   return (
     <Formik {...{ initialValues, onSubmit, validationSchema }}>
+      {/* rander props pattren */}
       {({ isValid, dirty }) => (
         <Form>
           <div className="name-fields">
@@ -54,6 +63,37 @@ const SignUpForm = () => {
                 name="lname"
               />
               <ErrorMessage className="error" component="p" name="lname" />
+            </div>
+          </div>
+
+          <div className="name-fields">
+            <div className="fields">
+              <label htmlFor="codepan">CodePan</label>
+              <Field
+                type="text"
+                id="codepan"
+                placeholder="CodePan link"
+                name="social.codepan"
+              />
+              <ErrorMessage
+                className="error"
+                component="p"
+                name="social.codepan"
+              />
+            </div>
+            <div className="fields">
+              <label htmlFor="github">GitHub</label>
+              <Field
+                type="text"
+                id="github"
+                placeholder="GitHub link"
+                name="social.github"
+              />
+              <ErrorMessage
+                className="error"
+                component="p"
+                name="social.github"
+              />
             </div>
           </div>
           <div className="fields">
