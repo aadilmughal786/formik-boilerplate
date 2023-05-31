@@ -24,7 +24,7 @@ form {
   flex-direction: column;
 }
 
-.name-fields {
+.group-fields {
   display: flex;
   gap: 30px;
 }

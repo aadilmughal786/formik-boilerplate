@@ -16,6 +16,7 @@ const SignUpForm = () => {
       codepan: "",
       github: "",
     },
+    phonenumbers: ["", ""],
   };
 
   const onSubmit = (values) => {
@@ -36,6 +37,9 @@ const SignUpForm = () => {
       codepan: Yup.string().required(),
       github: Yup.string().required(),
     }),
+    phonenumbers: Yup.array().of(
+      Yup.string().matches(/^\d{10}$/, "Invalid phone number")
+    ),
   });
 
   return (
@@ -43,7 +47,7 @@ const SignUpForm = () => {
       {/* rander props pattren */}
       {({ isValid, dirty }) => (
         <Form>
-          <div className="name-fields">
+          <div className="group-fields">
             <div className="fields">
               <label htmlFor="fname">First Name</label>
               <Field
@@ -66,7 +70,7 @@ const SignUpForm = () => {
             </div>
           </div>
 
-          <div className="name-fields">
+          <div className="group-fields">
             <div className="fields">
               <label htmlFor="codepan">CodePan</label>
               <Field
@@ -96,6 +100,7 @@ const SignUpForm = () => {
               />
             </div>
           </div>
+
           <div className="fields">
             <label htmlFor="email">Email</label>
             <Field
@@ -106,6 +111,38 @@ const SignUpForm = () => {
             />
             <ErrorMessage className="error" component="p" name="email" />
           </div>
+
+          <div className="group-fields">
+            <div className="fields">
+              <label htmlFor="phonenumber1">CodePan</label>
+              <Field
+                type="text"
+                id="phonenumber1"
+                placeholder="phonenumber1"
+                name="phonenumbers[0]"
+              />
+              <ErrorMessage
+                className="error"
+                component="p"
+                name="phonenumbers[0]"
+              />
+            </div>
+            <div className="fields">
+              <label htmlFor="phonenumber2">GitHub</label>
+              <Field
+                type="text"
+                id="phonenumber2"
+                placeholder="phonenumber2"
+                name="phonenumbers[1]"
+              />
+              <ErrorMessage
+                className="error"
+                component="p"
+                name="phonenumbers[1]"
+              />
+            </div>
+          </div>
+
           <div className="fields">
             <label htmlFor="password">Password</label>
             <Field
