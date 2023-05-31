@@ -12,10 +12,11 @@ const SignUpForm = () => {
       password: "",
       terms: false,
     },
-    onSubmit: () => {
+    onSubmit: (values) => {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
+        console.log(values);
       }, 2000);
     },
 
