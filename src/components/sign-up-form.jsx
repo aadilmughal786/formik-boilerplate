@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import Loader from "./loader";
+import * as Yup from "yup";
 
 const SignUpForm = () => {
   const [isloading, setIsLoading] = useState(false);
@@ -13,24 +14,13 @@ const SignUpForm = () => {
     terms: false,
   };
 
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.fname) {
-      errors.fname = "Required";
-    }
-    if (!values.lname) {
-      errors.lname = "Required";
-    }
-    if (!values.email) {
-      errors.email = "Required";
-    }
-    if (!values.password) {
-      errors.password = "Required";
-    }
-
-    return errors;
-  };
+  const validationSchema = Yup.object({
+    fname: Yup.string().required(),
+    lname: Yup.string().required(),
+    email: Yup.string().email().required(),
+    password: Yup.string().min(8).required(),
+    terms: Yup.boolean().required(),
+  });
 
   const onSubmit = (values) => {
     setIsLoading(true);
@@ -43,7 +33,7 @@ const SignUpForm = () => {
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate,
+    validationSchema,
   });
 
   return (
