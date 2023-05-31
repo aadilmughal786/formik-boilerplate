@@ -35,6 +35,9 @@ const SignUpForm = () => {
       if (!values.password) {
         errors.password = "Required";
       }
+      if (!values.terms) {
+        errors.terms = true;
+      }
 
       return errors;
     },
@@ -110,7 +113,9 @@ const SignUpForm = () => {
         />
         <label htmlFor="terms">Terms and Condations</label>
       </div>
-      <button type="submit">{isloading ? <Loader /> : "Submit"}</button>
+      <button disabled={!formik.dirty || !formik.isValid} type="submit">
+        {isloading ? <Loader /> : "Submit"}
+      </button>
     </form>
   );
 };
