@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import Loader from "./loader";
+import * as Yup from "yup";
 
 const SignUpForm = () => {
   const [isloading, setIsLoading] = useState(false);
@@ -13,25 +14,6 @@ const SignUpForm = () => {
     terms: false,
   };
 
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.fname) {
-      errors.fname = "Required";
-    }
-    if (!values.lname) {
-      errors.lname = "Required";
-    }
-    if (!values.email) {
-      errors.email = "Required";
-    }
-    if (!values.password) {
-      errors.password = "Required";
-    }
-
-    return errors;
-  };
-
   const onSubmit = (values) => {
     setIsLoading(true);
     setTimeout(() => {
@@ -40,10 +22,18 @@ const SignUpForm = () => {
     }, 2000);
   };
 
+  const validationSchema = Yup.object({
+    fname: Yup.string().required(),
+    lname: Yup.string().required(),
+    email: Yup.string().email().required(),
+    password: Yup.string().min(8).required(),
+    terms: Yup.boolean().required(),
+  });
+
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validate,
+    validationSchema,
   });
 
   return (
@@ -55,9 +45,7 @@ const SignUpForm = () => {
             type="text"
             id="fname"
             placeholder="First name"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.fname}
+            {...formik.getFieldProps("fname")}
           />
           {formik.errors.fname && formik.touched.fname && (
             <p className="error">{formik.errors.fname}</p>
@@ -69,9 +57,7 @@ const SignUpForm = () => {
             type="text"
             id="lname"
             placeholder="Last name"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.lname}
+            {...formik.getFieldProps("lname")}
           />
           {formik.errors.lname && formik.touched.lname && (
             <p className="error">{formik.errors.lname}</p>
@@ -84,9 +70,7 @@ const SignUpForm = () => {
           type="text"
           id="email"
           placeholder="Email address"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
+          {...formik.getFieldProps("email")}
         />
         {formik.errors.email && formik.touched.email && (
           <p className="error">{formik.errors.email}</p>
@@ -98,9 +82,7 @@ const SignUpForm = () => {
           type="password"
           id="password"
           placeholder="Password"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
+          {...formik.getFieldProps("password")}
         />
         {formik.errors.password && formik.touched.password && (
           <p className="error">{formik.errors.password}</p>
@@ -111,8 +93,7 @@ const SignUpForm = () => {
           type="checkbox"
           name="terms"
           id="terms"
-          onChange={formik.handleChange}
-          value={formik.values.terms}
+          {...formik.getFieldProps("terms")}
         />
         <label htmlFor="terms">Terms and Condations</label>
       </div>
