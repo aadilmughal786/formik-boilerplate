@@ -19,7 +19,7 @@ const SignUpForm = () => {
     lname: Yup.string().required(),
     email: Yup.string().email().required(),
     password: Yup.string().min(8).required(),
-    terms: Yup.boolean().required(),
+    terms: Yup.boolean().oneOf([true]).required(),
   });
 
   const onSubmit = (values) => {
@@ -106,7 +106,9 @@ const SignUpForm = () => {
         />
         <label htmlFor="terms">Terms and Condations</label>
       </div>
-      <button type="submit">{isloading ? <Loader /> : "Submit"}</button>
+      <button disabled={!formik.dirty || !formik.isValid} type="submit">
+        {isloading ? <Loader /> : "Submit"}
+      </button>
     </form>
   );
 };
