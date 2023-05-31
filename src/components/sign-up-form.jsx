@@ -1,4 +1,4 @@
-import { useFormik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import Loader from "./loader";
 import * as Yup from "yup";
@@ -27,83 +27,61 @@ const SignUpForm = () => {
     lname: Yup.string().required(),
     email: Yup.string().email().required(),
     password: Yup.string().min(8).required(),
-    terms: Yup.boolean(true).required(),
-  });
-
-  const formik = useFormik({
-    initialValues,
-    onSubmit,
-    validationSchema,
+    terms: Yup.boolean(true).required().oneOf([true]),
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div className="name-fields">
-        <div className="fields">
-          <label htmlFor="fname">First Name</label>
-          <input
-            type="text"
-            id="fname"
-            placeholder="First name"
-            {...formik.getFieldProps("fname")}
-          />
-          {formik.errors.fname && formik.touched.fname && (
-            <p className="error">{formik.errors.fname}</p>
-          )}
+    <Formik {...{ initialValues, onSubmit, validationSchema }}>
+      <Form>
+        <div className="name-fields">
+          <div className="fields">
+            <label htmlFor="fname">First Name</label>
+            <Field
+              type="text"
+              id="fname"
+              placeholder="First name"
+              name="fname"
+            />
+            <ErrorMessage className="error" component="p" name="fname" />
+          </div>
+          <div className="fields">
+            <label htmlFor="lname">Last Name</label>
+            <Field
+              type="text"
+              id="lname"
+              placeholder="Last name"
+              name="lname"
+            />
+            <ErrorMessage className="error" component="p" name="lname" />
+          </div>
         </div>
         <div className="fields">
-          <label htmlFor="lname">Last Name</label>
-          <input
+          <label htmlFor="email">Email</label>
+          <Field
             type="text"
-            id="lname"
-            placeholder="Last name"
-            {...formik.getFieldProps("lname")}
+            id="email"
+            placeholder="Email address"
+            name="email"
           />
-          {formik.errors.lname && formik.touched.lname && (
-            <p className="error">{formik.errors.lname}</p>
-          )}
+          <ErrorMessage className="error" component="p" name="email" />
         </div>
-      </div>
-      <div className="fields">
-        <label htmlFor="email">Email</label>
-        <input
-          type="text"
-          id="email"
-          placeholder="Email address"
-          {...formik.getFieldProps("email")}
-        />
-        {formik.errors.email && formik.touched.email && (
-          <p className="error">{formik.errors.email}</p>
-        )}
-      </div>
-      <div className="fields">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          {...formik.getFieldProps("password")}
-        />
-        {formik.errors.password && formik.touched.password && (
-          <p className="error">{formik.errors.password}</p>
-        )}
-      </div>
-      <div className="fields terms">
-        <input
-          type="checkbox"
-          name="terms"
-          id="terms"
-          {...formik.getFieldProps("terms")}
-        />
-        <label htmlFor="terms">Terms and Condations</label>
-      </div>
-      <button
-        disabled={!(formik.dirty && formik.isValid && formik.values.terms)}
-        type="submit"
-      >
-        {isloading ? <Loader /> : "Submit"}
-      </button>
-    </form>
+        <div className="fields">
+          <label htmlFor="password">Password</label>
+          <Field
+            type="password"
+            id="password"
+            placeholder="Password"
+            name="password"
+          />
+          <ErrorMessage className="error" component="p" name="password" />
+        </div>
+        <div className="fields terms">
+          <Field type="checkbox" name="terms" id="terms" />
+          <label htmlFor="terms">Terms and Condations</label>
+        </div>
+        <button type="submit">{isloading ? <Loader /> : "Submit"}</button>
+      </Form>
+    </Formik>
   );
 };
 
