@@ -32,55 +32,59 @@ const SignUpForm = () => {
 
   return (
     <Formik {...{ initialValues, onSubmit, validationSchema }}>
-      <Form>
-        <div className="name-fields">
-          <div className="fields">
-            <label htmlFor="fname">First Name</label>
-            <Field
-              type="text"
-              id="fname"
-              placeholder="First name"
-              name="fname"
-            />
-            <ErrorMessage className="error" component="p" name="fname" />
+      {({ isValid, dirty }) => (
+        <Form>
+          <div className="name-fields">
+            <div className="fields">
+              <label htmlFor="fname">First Name</label>
+              <Field
+                type="text"
+                id="fname"
+                placeholder="First name"
+                name="fname"
+              />
+              <ErrorMessage className="error" component="p" name="fname" />
+            </div>
+            <div className="fields">
+              <label htmlFor="lname">Last Name</label>
+              <Field
+                type="text"
+                id="lname"
+                placeholder="Last name"
+                name="lname"
+              />
+              <ErrorMessage className="error" component="p" name="lname" />
+            </div>
           </div>
           <div className="fields">
-            <label htmlFor="lname">Last Name</label>
+            <label htmlFor="email">Email</label>
             <Field
               type="text"
-              id="lname"
-              placeholder="Last name"
-              name="lname"
+              id="email"
+              placeholder="Email address"
+              name="email"
             />
-            <ErrorMessage className="error" component="p" name="lname" />
+            <ErrorMessage className="error" component="p" name="email" />
           </div>
-        </div>
-        <div className="fields">
-          <label htmlFor="email">Email</label>
-          <Field
-            type="text"
-            id="email"
-            placeholder="Email address"
-            name="email"
-          />
-          <ErrorMessage className="error" component="p" name="email" />
-        </div>
-        <div className="fields">
-          <label htmlFor="password">Password</label>
-          <Field
-            type="password"
-            id="password"
-            placeholder="Password"
-            name="password"
-          />
-          <ErrorMessage className="error" component="p" name="password" />
-        </div>
-        <div className="fields terms">
-          <Field type="checkbox" name="terms" id="terms" />
-          <label htmlFor="terms">Terms and Condations</label>
-        </div>
-        <button type="submit">{isloading ? <Loader /> : "Submit"}</button>
-      </Form>
+          <div className="fields">
+            <label htmlFor="password">Password</label>
+            <Field
+              type="password"
+              id="password"
+              placeholder="Password"
+              name="password"
+            />
+            <ErrorMessage className="error" component="p" name="password" />
+          </div>
+          <div className="fields terms">
+            <Field type="checkbox" name="terms" id="terms" />
+            <label htmlFor="terms">Terms and Condations</label>
+          </div>
+          <button disabled={!(isValid && dirty)} type="submit">
+            {isloading ? <Loader /> : "Submit"}
+          </button>
+        </Form>
+      )}
     </Formik>
   );
 };
